@@ -1,0 +1,12 @@
+# PWA Icons
+
+To complete PWA setup, add these icon files:
+- icon-192.png (192x192 pixels)
+- icon-512.png (512x512 pixels)
+
+You can generate these using tools like:
+- https://realfavicongenerator.net/
+- https://www.pwabuilder.com/imageGenerator
+- Or create simple icons with your design tool
+
+For now, the app will work without icons, but they're needed for a complete PWA experience.

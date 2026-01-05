@@ -1,0 +1,340 @@
+/* Root variables for custom styling */
+:root {
+  /* Deep Space Gradient - More purple/indigo leaning */
+  --manda-bg-gradient: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 40%, #020617 100%);
+
+  /* Glassmorphism variables */
+  --manda-card-bg: rgba(30, 41, 59, 0.3);
+  --manda-card-border: rgba(148, 163, 184, 0.05);
+  --manda-glass-highlight: rgba(255, 255, 255, 0.03);
+
+  /* Glow effects */
+  --manda-hover-glow: 0 0 25px rgba(255, 193, 7, 0.15);
+  --manda-accent-glow: 0 0 40px rgba(99, 102, 241, 0.2); /* Indigo glow */
+
+  /* Text colors */
+  --manda-text-primary: #f8fafc;
+  --manda-text-secondary: #94a3b8;
+  --manda-text-muted: #64748b;
+
+  /* Grid pattern overlay */
+  --manda-grid-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar - Slimmer and simpler */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 193, 7, 0.4);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+/* Body styling */
+body {
+  background: var(--manda-bg-gradient);
+  background-attachment: fixed; /* Parallax-like fixed background */
+  min-height: 100vh;
+  color: var(--manda-text-primary);
+  /* Subtle noise texture or grid can go here if desired */
+  position: relative;
+}
+
+/* Optional: Subtle Grid Background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(var(--manda-grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--manda-grid-color) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: -1;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+  opacity: 0.5;
+}
+
+/* Selection styling */
+::selection {
+  background: rgba(99, 102, 241, 0.3); /* Indigo selection */
+  color: #fff;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(255, 193, 7, 0.3);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Utility classes */
+.animate-fadeIn {
+  animation: fadeIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.animate-slideInLeft {
+  animation: slideInLeft 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.animate-slideInRight {
+  animation: slideInRight 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Staggered animation delays */
+.stagger-1 {
+  animation-delay: 0.05s;
+}
+.stagger-2 {
+  animation-delay: 0.1s;
+}
+.stagger-3 {
+  animation-delay: 0.15s;
+}
+.stagger-4 {
+  animation-delay: 0.2s;
+}
+.stagger-5 {
+  animation-delay: 0.25s;
+}
+
+/* Glass morphism effect - Enhanced */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+.glass-panel {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Glow effects */
+.glow-amber {
+  box-shadow: 0 0 25px rgba(255, 193, 7, 0.2);
+}
+.glow-amber-strong {
+  box-shadow: 0 0 40px rgba(255, 193, 7, 0.3);
+}
+
+/* Gradient text - More vibrant */
+.gradient-text {
+  background: linear-gradient(135deg, #ffc107 0%, #ff8f00 50%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px rgba(255, 193, 7, 0.3);
+}
+
+.gradient-text-alt {
+  background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card hover effects */
+.card-interactive {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+}
+
+.card-interactive:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 193, 7, 0.2);
+  box-shadow: var(--manda-hover-glow);
+}
+
+/* Navigation item styling */
+.nav-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px; /* Smoother radius */
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #ffc107 0%, #ff8f00 100%);
+  transform: scaleY(0);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+}
+
+.nav-item:hover::before,
+.nav-item[data-active='true']::before {
+  transform: scaleY(1);
+}
+
+/* Loading skeleton - Smoother shimmer */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 8px;
+}
+
+/* Reader iframe styling */
+.reader-frame {
+  border-radius: 16px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Badge styling */
+.badge-glow {
+  box-shadow: 0 0 10px currentColor;
+}
+
+/* Input focus effects */
+input:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4) !important; /* Indigo focus ring */
+}
+
+/* Button hover effects */
+button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  :root {
+    --manda-spacing-base: 12px;
+  }
+}
+
+/* Dark mode overrides for Mantine */
+.mantine-AppShell-navbar {
+  background: rgba(15, 23, 42, 0.8) !important; /* Darker, more slate/indigo */
+  backdrop-filter: blur(24px);
+  border-right: 1px solid rgba(255, 255, 255, 0.04) !important;
+}
+
+.mantine-AppShell-main {
+  background: transparent !important;
+}
+
+/* Custom focus ring */
+*:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.6);
+  outline-offset: 2px;
+}
+
+/* Smooth transitions for color scheme changes */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-duration: 0.2s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Prevent layout shift during animations */
+.animate-fadeIn,
+.animate-slideInLeft,
+.animate-slideInRight {
+  opacity: 0;
+  will-change: transform, opacity;
+}

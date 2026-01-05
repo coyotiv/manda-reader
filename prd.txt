@@ -1,0 +1,132 @@
+Manda Reader
+Key takeaways for the new extension
+– Goal: super-fast way to get from feeds (Hacker News, Substack, blogs, etc.) to the actual content, with light bookmarking and minimal UI.
+– Musts: easy feed adding (paste URL), HN-specific list + behavior, in-extension reading that “just works,” simple bookmarking/export, and multi-device sync.
+– Everything else is secondary or noise.
+
+Product goal / philosophy
+Optimized for “content websites” (HN, Substack, blogs) rather than generic news.
+
+
+Primary job: get me to the content as fast as possible, with just enough memory (bookmarks/history) to find things again.
+
+
+Lightweight, minimal, no “home” dashboards or clutter pages.
+
+
+Must-have functionality
+Feed sources and adding feeds
+
+
+Start from a useful default set of feeds (e.g., Hacker News, BetaList, etc.).
+
+
+Ability to add new feeds by pasting a normal web URL (e.g., Substack post or blog), and the app discovers the RSS/Atom automatically (can use search if needed).
+
+
+Simple “Add feed” entry point in the extension UI (e.g., browser button “Add this site to Reader”).
+
+
+Hacker News experience
+
+
+List view shows: title, number of comments, score/likes, and age/time.
+
+
+Sort options including “popularity” (score-based) and maybe time-based.
+
+
+Clicking the item opens the external link (the article), not the HN comments page.
+
+
+Clicking on “comments” or “score/likes” opens the HN discussion page.
+
+
+Reading experience
+
+
+Built-in reader panel that can display ~95% of pages correctly inside the extension/app.
+
+
+By default, open in the built-in view; provide a clear “Open in new tab” option.
+
+
+Visible URL + easy “Open in new tab” and “Copy link” actions.
+
+
+State, bookmarks, and sync
+
+
+Items auto-mark as “read” when opened.
+
+
+“Save for later” / bookmark per item.
+
+
+Ability to export bookmarks as a list of links (basic export is enough).
+
+
+User account + sync so the same feeds and state can be used on multiple computers.
+
+
+Nice-to-have / secondary features
+History
+
+
+A “History” view that shows, per day, what was in the feed and what I clicked.
+
+
+Day-by-day snapshot so I can return to “what I saw today” or “recently” even if items disappear from the main feed.
+
+
+This is useful but considered secondary / harder; can come later.
+
+
+Reader mode
+
+
+Clean reader mode (simplified article view) as a toggle.
+
+
+Most of the time, normal webpage rendering is fine; reader mode is a bonus.
+
+
+Substack-specific support
+
+
+Extra support for Substack: connecting a Substack account and listing my subscribed newsletters.
+
+
+Tracking new posts per subscription and pulling them into the same reader UI.
+
+
+BetaList and similar feeds
+
+
+For feeds like BetaList, default behavior is still “go to the main link,” but offer an easy way to open the BetaList page for that startup as well.
+
+
+Mobile
+
+
+Mobile app or PWA version that mirrors the same experience.
+
+
+Treated as “nice to have,” not core v1.
+
+
+Favorites/Bookmarks
+
+
+Simple, like Safari, feature to add my go to links. This is not about RSS feeds. When I open a new tab I want to easily go to my bookmarks.
+Things that don’t matter / should be avoided
+Generic “Home” pages, news dashboards, or extra sections that don’t help with fast access to content.
+
+
+Heavy feed-management interfaces; just keep a list and basic add/remove.
+
+
+Overcomplicated recommendation systems or social features that slow down the core “open content fast” workflow.
+
+
+

@@ -1,0 +1,61 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: manda-reader-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: manda-reader
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/manda-reader --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    attach: false
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: manda-reader-backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/tsconfig.json:/app/tsconfig.json
+      - ./backend/nodemon.json:/app/nodemon.json
+      - ./backend/.env:/app/.env
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    command: npm run dev
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: manda-reader-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/index.html:/app/index.html
+      - ./frontend/vite.config.ts:/app/vite.config.ts
+      - ./frontend/tsconfig.json:/app/tsconfig.json
+      - ./frontend/tsconfig.node.json:/app/tsconfig.node.json
+      - ./frontend/.env:/app/.env
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
+    command: npm run dev
+
+volumes:
+  mongodb_data:

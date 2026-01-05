@@ -1,0 +1,17 @@
+{
+  "name": "manda-reader",
+  "version": "1.0.0",
+  "description": "Manda Reader",
+  "private": true,
+  "scripts": {
+    "lint": "cd backend && npm run lint && cd ../frontend && npm run lint",
+    "lint:fix": "cd backend && npm run lint:fix && cd ../frontend && npm run lint:fix",
+    "format": "cd backend && npm run format && cd ../frontend && npm run format",
+    "format:check": "cd backend && npm run format:check && cd ../frontend && npm run format:check"
+  },
+  "dependencies": {
+    "@mozilla/readability": "^0.6.0",
+    "@types/jsdom": "^27.0.0",
+    "jsdom": "^27.4.0"
+  }
+}
