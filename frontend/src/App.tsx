@@ -9,7 +9,9 @@ import {
   Tooltip,
   Avatar,
   Divider,
+  Burger,
 } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
 import { useAuth } from './hooks/useAuth'
 import ProtectedRoute from './components/ProtectedRoute'
 import LoginPage from './pages/LoginPage'
@@ -119,61 +121,11 @@ const Icons = {
   ),
 }
 
-interface NavItemProps {
-  icon: React.ReactNode
-  label: string
-  href: string
-  color?: string
-  active?: boolean
-  onClick: () => void
-}
-
-function NavItem({ icon, label, color, active, onClick }: NavItemProps) {
-  return (
-    <Tooltip label={label} position="right" transitionProps={{ duration: 200 }}>
-      <UnstyledButton
-        onClick={onClick}
-        className="nav-item"
-        data-active={active}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px',
-          padding: '12px 16px',
-          borderRadius: '12px',
-          color: active ? 'var(--mantine-color-amber-5)' : 'var(--mantine-color-gray-4)',
-          background: active ? 'rgba(255, 193, 7, 0.1)' : 'transparent',
-          transition: 'all 0.2s ease',
-          width: '100%',
-        }}
-        onMouseEnter={e => {
-          if (!active) {
-            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
-            e.currentTarget.style.color = color || 'var(--mantine-color-gray-2)'
-          }
-        }}
-        onMouseLeave={e => {
-          if (!active) {
-            e.currentTarget.style.background = 'transparent'
-            e.currentTarget.style.color = 'var(--mantine-color-gray-4)'
-          }
-        }}
-      >
-        <Box style={{ color: active ? color || 'var(--mantine-color-amber-5)' : 'inherit' }}>
-          {icon}
-        </Box>
-        <Text size="sm" fw={active ? 600 : 500}>
-          {label}
-        </Text>
-      </UnstyledButton>
-    </Tooltip>
-  )
-}
-
 function App() {
   const { isAuthenticated, logout, user } = useAuth()
   const location = useLocation()
   const navigate = useNavigate()
+  const [opened, { toggle }] = useDisclosure(true)
 
   const navItems = [
     { icon: <Icons.Feeds />, label: 'Feeds', href: '/' },
@@ -194,7 +146,7 @@ function App() {
             <AppShell
               padding="xl"
               navbar={{
-                width: 260,
+                width: opened ? 260 : 80,
                 breakpoint: 'sm',
               }}
               styles={{
@@ -203,110 +155,247 @@ function App() {
                   minHeight: '100vh',
                 },
                 navbar: {
-                  background: 'rgba(15, 23, 42, 0.6)', // Deep space glass
-                  backdropFilter: 'blur(20px)',
-                  borderRight: '1px solid rgba(255, 255, 255, 0.05)',
+                  background: 'rgba(15, 23, 42, 0.7)',
+                  backdropFilter: 'blur(24px) saturate(180%)',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.08)',
+                  boxShadow: '0 0 0 1px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.15)',
                 },
               }}
             >
-              <AppShell.Navbar p="md">
+                <AppShell.Navbar p="md">
                 <Stack h="100%" justify="space-between">
                   {/* Logo & Brand */}
                   <Box>
-                    <Group gap="sm" mb="xl" p="sm">
-                      <Box style={{ color: '#ffc107' }}>
-                        <Icons.Manda />
-                      </Box>
-                      <Box>
-                        <Text
-                          size="lg"
-                          fw={700}
-                          style={{
-                            background: 'linear-gradient(135deg, #ffc107 0%, #ff8f00 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                          }}
-                        >
-                          Manda Reader
-                        </Text>
-                        <Text size="xs" c="dimmed">
-                          Fast content, minimal noise
-                        </Text>
-                      </Box>
-                    </Group>
-
-                    <Divider mb="md" color="rgba(255, 255, 255, 0.06)" />
-
-                    {/* Navigation */}
-                    <Stack gap={4}>
-                      {navItems.map((item, index) => (
-                        <Box
-                          key={item.href}
-                          className="animate-slideInLeft"
-                          style={{ animationDelay: `${index * 0.05}s`, opacity: 0 }}
-                        >
-                          <NavItem
-                            {...item}
-                            active={
-                              item.href === '/'
-                                ? location.pathname === '/' || location.pathname.startsWith('/item')
-                                : location.pathname === item.href
-                            }
-                            onClick={() => navigate(item.href)}
-                          />
-                        </Box>
-                      ))}
-                    </Stack>
-                  </Box>
-
-                  {/* User Section */}
-                  <Box>
-                    <Divider mb="md" color="rgba(255, 255, 255, 0.06)" />
-                    <Group justify="space-between" p="sm">
-                      <Group gap="sm">
-                        <Avatar size="sm" radius="xl" color="amber">
-                          {user?.email?.charAt(0).toUpperCase() || 'U'}
-                        </Avatar>
-                        <Box>
-                          <Text
-                            size="sm"
-                            fw={500}
-                            c="gray.3"
-                            lineClamp={1}
-                            style={{ maxWidth: 120 }}
-                          >
-                            {user?.email?.split('@')[0] || 'User'}
-                          </Text>
-                        </Box>
-                      </Group>
-                      <Tooltip label="Sign out" position="top">
+                    {/* Toggle Button - Fixed Position */}
+                    <Box style={{ position: 'relative', height: '48px', marginBottom: '8px' }}>
+                      <Tooltip label={opened ? 'Collapse sidebar' : 'Expand sidebar'} position="right">
                         <UnstyledButton
-                          onClick={logout}
+                          onClick={toggle}
                           style={{
-                            padding: '8px',
+                            position: 'absolute',
+                            top: '0',
+                            left: '0',
+                            padding: '10px',
                             borderRadius: '8px',
+                            background: 'transparent',
                             color: 'var(--mantine-color-gray-5)',
-                            transition: 'all 0.2s ease',
+                            transition: 'background 0.2s ease, color 0.2s ease',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
                           }}
                           onMouseEnter={e => {
-                            e.currentTarget.style.background = 'rgba(255, 107, 107, 0.1)'
-                            e.currentTarget.style.color = 'var(--mantine-color-red-5)'
+                            e.currentTarget.style.background = 'rgba(255, 193, 7, 0.1)'
+                            e.currentTarget.style.color = 'var(--mantine-color-amber-5)'
                           }}
                           onMouseLeave={e => {
                             e.currentTarget.style.background = 'transparent'
                             e.currentTarget.style.color = 'var(--mantine-color-gray-5)'
                           }}
                         >
-                          <Icons.Logout />
+                          {opened ? (
+                            <svg
+                              width="18"
+                              height="18"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polyline points="11 17 6 12 11 7" />
+                              <polyline points="18 17 13 12 18 7" />
+                            </svg>
+                          ) : (
+                            <svg
+                              width="20"
+                              height="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polyline points="13 7 18 12 13 17" />
+                              <polyline points="6 7 11 12 6 17" />
+                            </svg>
+                          )}
                         </UnstyledButton>
                       </Tooltip>
-                    </Group>
+                    </Box>
+
+                    {/* Logo - Fixed Position */}
+                    <Box mb="lg" style={{ height: '56px', display: 'flex', alignItems: 'center' }}>
+                      <Group gap="sm" wrap="nowrap" style={{ width: '100%' }}>
+                        <Box style={{ color: '#ffc107', flexShrink: 0 }}>
+                          <Icons.Manda />
+                        </Box>
+                        {opened && (
+                          <Box style={{ overflow: 'hidden' }}>
+                            <Text
+                              size="lg"
+                              fw={700}
+                              style={{
+                                background: 'linear-gradient(135deg, #ffc107 0%, #ff8f00 100%)',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                                lineHeight: 1.2,
+                                whiteSpace: 'nowrap',
+                              }}
+                            >
+                              Manda Reader
+                            </Text>
+                            <Text size="xs" c="dimmed" style={{ lineHeight: 1.4, whiteSpace: 'nowrap' }}>
+                              Fast content, minimal noise
+                            </Text>
+                          </Box>
+                        )}
+                      </Group>
+                    </Box>
+
+                    <Divider mb="md" color="rgba(255, 255, 255, 0.06)" />
+
+                    {/* Navigation */}
+                    <Stack gap={6}>
+                      {navItems.map(item => {
+                        const isActive =
+                          item.href === '/'
+                            ? location.pathname === '/' || location.pathname.startsWith('/item')
+                            : location.pathname === item.href
+
+                        return (
+                          <Tooltip
+                            key={item.href}
+                            label={item.label}
+                            position="right"
+                            transitionProps={{ duration: 150 }}
+                            disabled={opened}
+                          >
+                            <UnstyledButton
+                              onClick={() => navigate(item.href)}
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '12px',
+                                padding: '12px 16px',
+                                borderRadius: '12px',
+                                color: isActive
+                                  ? item.color || 'var(--mantine-color-amber-5)'
+                                  : 'var(--mantine-color-gray-4)',
+                                background: isActive ? 'rgba(255, 193, 7, 0.1)' : 'transparent',
+                                transition: 'background 0.2s ease, color 0.2s ease',
+                                width: '100%',
+                                justifyContent: opened ? 'flex-start' : 'center',
+                              }}
+                              onMouseEnter={e => {
+                                if (!isActive) {
+                                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
+                                  e.currentTarget.style.color = item.color || 'var(--mantine-color-gray-2)'
+                                }
+                              }}
+                              onMouseLeave={e => {
+                                if (!isActive) {
+                                  e.currentTarget.style.background = 'transparent'
+                                  e.currentTarget.style.color = 'var(--mantine-color-gray-4)'
+                                }
+                              }}
+                            >
+                              <Box style={{ color: isActive ? item.color || 'var(--mantine-color-amber-5)' : 'inherit' }}>
+                                {item.icon}
+                              </Box>
+                              {opened && (
+                                <Text size="sm" fw={isActive ? 600 : 500}>
+                                  {item.label}
+                                </Text>
+                              )}
+                            </UnstyledButton>
+                          </Tooltip>
+                        )
+                      })}
+                    </Stack>
+                  </Box>
+
+                  {/* User Section */}
+                  <Box>
+                    <Divider mb="md" color="rgba(255, 255, 255, 0.06)" />
+                    {opened ? (
+                      <Group justify="space-between" p="md">
+                        <Group gap="sm">
+                          <Avatar size="sm" radius="xl" color="amber" style={{ border: '2px solid rgba(255, 193, 7, 0.2)' }}>
+                            {user?.email?.charAt(0).toUpperCase() || 'U'}
+                          </Avatar>
+                          <Box style={{ flex: 1, minWidth: 0 }}>
+                            <Text
+                              size="sm"
+                              fw={500}
+                              c="gray.3"
+                              lineClamp={1}
+                              style={{ lineHeight: 1.4 }}
+                            >
+                              {user?.email?.split('@')[0] || 'User'}
+                            </Text>
+                          </Box>
+                        </Group>
+                        <Tooltip label="Sign out" position="top">
+                          <UnstyledButton
+                            onClick={logout}
+                            style={{
+                              padding: '8px',
+                              borderRadius: '8px',
+                              color: 'var(--mantine-color-gray-5)',
+                              transition: 'all 0.2s ease',
+                            }}
+                            onMouseEnter={e => {
+                              e.currentTarget.style.background = 'rgba(255, 107, 107, 0.12)'
+                              e.currentTarget.style.color = 'var(--mantine-color-red-5)'
+                            }}
+                            onMouseLeave={e => {
+                              e.currentTarget.style.background = 'transparent'
+                              e.currentTarget.style.color = 'var(--mantine-color-gray-5)'
+                            }}
+                          >
+                            <Icons.Logout />
+                          </UnstyledButton>
+                        </Tooltip>
+                      </Group>
+                    ) : (
+                      <Stack gap="lg" align="center" p="md" pt="sm">
+                        <Tooltip label={user?.email?.split('@')[0] || 'User'} position="right">
+                          <Avatar size="sm" radius="xl" color="amber" style={{ cursor: 'default', border: '2px solid rgba(255, 193, 7, 0.2)' }}>
+                            {user?.email?.charAt(0).toUpperCase() || 'U'}
+                          </Avatar>
+                        </Tooltip>
+                        <Tooltip label="Sign out" position="right">
+                          <UnstyledButton
+                            onClick={logout}
+                            style={{
+                              padding: '10px',
+                              borderRadius: '8px',
+                              color: 'var(--mantine-color-gray-5)',
+                              transition: 'all 0.2s ease',
+                            }}
+                            onMouseEnter={e => {
+                              e.currentTarget.style.background = 'rgba(255, 107, 107, 0.12)'
+                              e.currentTarget.style.color = 'var(--mantine-color-red-5)'
+                            }}
+                            onMouseLeave={e => {
+                              e.currentTarget.style.background = 'transparent'
+                              e.currentTarget.style.color = 'var(--mantine-color-gray-5)'
+                            }}
+                          >
+                            <Icons.Logout />
+                          </UnstyledButton>
+                        </Tooltip>
+                      </Stack>
+                    )}
                   </Box>
                 </Stack>
               </AppShell.Navbar>
 
               <AppShell.Main>
-                <Box className="animate-fadeIn" style={{ opacity: 0, height: '100%' }}>
+                <Box style={{ height: '100%' }}>
                   <Routes>
                     <Route path="/" element={<FeedView />} />
                     <Route path="/item/:id" element={<ReaderView />} />
