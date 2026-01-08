@@ -9,7 +9,6 @@ import {
   Tooltip,
   Avatar,
   Divider,
-  Burger,
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { useAuth } from './hooks/useAuth'
